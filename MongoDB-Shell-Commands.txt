@@ -1,0 +1,88 @@
+MongoDB Shell Commands Learning Concepts
+========================================
+
+1. to show all databases 
+    $ show dbs;
+2. to select a database
+    $ use db_name;
+3. to create a database 
+    $ use db_name # not exisitng db_name will create that database
+4. to create a collection
+    $ db.createCollection("collection_name");
+5. to drop the database
+    $ db.dropDatabase();
+6. to see the collection
+    $ show collections;
+7. to create a collection
+    $ db.collectio_name;
+8. to insert data on a collection
+    $ db.collection_name.insertOne({ key1: "value1", key2: "value2"});
+9. to return all collection
+    $ db.collection_name.find();
+10. to insert multiple 
+    $ db.collection_name.insertMany([{}, {}, {}, ...]);
+11. to sort documents 
+    $ db.collection_name.find().sort({key1: 1});  // to sort in ascending order using 1, for reverse use -1
+12. to limit documents
+    $ db.collection_name.find().limit(2);
+13. to filter documents
+     Syntax:
+      db.collection_name.find({query}, {projection});  
+      # with query paramters filters all documents depending on query
+      # with projection parameter can selected individual field from the documents
+
+
+    $ db.collection_name.find({field: value});   # single filter
+    $ db.collection_name.find({}, {name: true}); # returns all documents but only the name field with that
+14. to update document
+    Syntax:
+      db.collection_name.updateOne(filter, update); 	# for single update
+      db.collcetion_name.updateMany(filter, update);    # for multiple update
+      # filter is the selection criteria
+      # update parameters is used to set using $set:{field:value} or to unset value using $unset:{field:value}
+      # check for existance using $exists: true or false
+   
+    db.collection_name.updateOne({name: "Mr. X"}, {$set:{fullTime: true});
+
+15. to delete a document
+    db.collection_name.deleteOne(filter) 	# to delete single document
+    db.collection_name.deleteMany(filter)	# to delete multiple document
+
+
+16. to indexing a document-
+    Syntax: 
+      db.collection_name.fi-nd({query}).explain("executionState");   	# perform a linear search 
+      db.collection_name.createIndex({index_name: bool});      		# creating an index   
+
+17. to get an index 
+     db.collection_name.getI-ndexes(); 					# list all indexes
+18. to drop an index
+     db.collection_name.dropIndex('index_name'); 			# to drop specified index
+
+MongoDB Datatypes
+-----------------
+1. String          ==> "Something"
+2. Integer         ==> 2
+3. Double          ==> 4.2
+4. Boolean         ==> True, False
+5. Date            ==> new Date('formate')
+6. NULL            ==> no value
+7. Array           ==> ['', '', '']
+8. Nested Document ==> {}
+
+MongoDB Operators
+-----------------
+a. Comparision Operators
+
+   1. $ne   ==> not equal
+   2. $lt   ==> less than
+   3. $lte  ==> less than equal
+   4. $gt   ==> greater than
+   5. $gte  ==> greater than equal
+   6. $in   ==> in operator
+   7. $nin  ==> not in operator
+b. Logical Operators
+   1. $and  ==> and operator
+   2. $or   ==> or operator
+   3. $not  ==> not operator
+   4. $nor  ==> nor operator 
