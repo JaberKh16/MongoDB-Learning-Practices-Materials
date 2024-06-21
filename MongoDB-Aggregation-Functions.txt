@@ -1,0 +1,76 @@
+MongoDB Aggregation Functions Concepts
+======================================
+
+1. count() function
+   Syntax:
+    
+    db.collection_name.count({query});
+   
+   e.g-
+    db.purchase_orders.count({product: "toothbrushes"});
+
+2. distinct() function
+   Syntax:
+    db.collection_name.distinct("field");
+
+   e.g-
+    db.purchase_orders.distinct("product");
+
+3. aggregate() function
+   Syntax: 
+    db.collection_name.aggregate([
+        { stage1 }, // each stage in the pipeline is a document that specifies an aggregation operation
+        { stage2 },
+        ...
+        { stageN }
+    ]);
+   
+   Common Aggregation Stages
+   -------------------------
+   1. $match: Filters the documents to pass only the ones that match the specified condition(s).
+   2. $group: Groups documents by a specified identifier and performs aggregate functions like sum, avg, min, max, etc.
+   3. $sort: Sorts the documents.
+   4. $project: Reshapes each document in the stream, such as by adding new fields or removing existing fields.
+   5. $limit: Limits the number of documents.
+   6. $skip: Skips the first N documents.
+   7. $lookup: Performs a left outer join to another collection in the same database to filter in documents 
+      from the "joined" collection for processing.
+
+
+   e.g-
+   1. db.sales.aggregate([
+        { $match: { status: "A" } },  // Filters documents where status is "A"
+        { $group: { _id: "$category", totalSales: { $sum: "$amount" } } }  // Groups by category and calculates total sales
+      ]);
+   2. db.orders.aggregate([
+        { $project: { _id: 0, item: 1, quantity: 1, date: 1 } },  // Projects only item, quantity, and date fields
+        { $sort: { date: -1 } }  // Sorts the documents by date in descending order
+      ]);
+   3. db.orders.aggregate([
+        {
+          $lookup: {
+              from: "customers",
+              localField: "customer_id",
+              foreignField: "customer_id",
+              as: "customer_info"
+          }
+        }
+      ]);
+   4. db.orders.aggregate([
+        { $match: { quantity: { $gt: 10 } } },  // Filters documents where quantity is greater than 10
+        { $group: { _id: "$item", avgQuantity: { $avg: "$quantity" } } },  // Groups by item and calculates average quantity
+        { $project: { _id: 0, item: "$_id", avgQuantity: 1 } }  // Projects the item and average quantity fields
+      ]);
+   5. db.users.aggregate([
+        { $unwind: "$hobbies" },  // Deconstructs the hobbies array field from the input documents to output a document for each element
+        { $group: { _id: "$hobbies", count: { $sum: 1 } } },  // Groups by hobbies and counts the number of occurrences
+        { $sort: { count: -1 } }  // Sorts the documents by count in descending order
+      ]);
+
+
+
+
+
+
+
+     
