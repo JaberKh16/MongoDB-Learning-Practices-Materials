@@ -1,0 +1,25 @@
+MongoDB Data Types Concepts
+===========================
+// Basic Data Types
+{
+     string: "String of text",
+     int: 405,
+     double: 3.565,
+     boolean: true, // false
+     array: [1, 2, 3],
+     object: {attr1: "attr1", attr2: "attr2"},
+     date: new Date("<YYYY-mm-dd>"),
+     object_id: <ObjectId>,
+     no_value: null
+}
+
+
+
+Additional Data Types
+---------------------
+Timestamp
+Binary data
+Regular expressions
+JS Code
+
+
